@@ -4,7 +4,7 @@ INSERT INTO testimonials (id, name, testimonial) VALUES (?, ?, ?);
 -- name: GetTestimonial :many
 SELECT * FROM testimonials ORDER BY name;
 
--- name UpdateTestimonial :exec
+-- name: UpdateTestimonial :exec
 UPDATE testimonials SET name = ?, testimonial = ? WHERE id = ?;
 
 -- name: DeleteTestimonial :exec
