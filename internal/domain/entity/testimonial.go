@@ -7,9 +7,9 @@ import (
 )
 
 type Testimonial struct {
-	ID          uuid.UUID `json:"id"`
-	Name        string    `json:"name"`
-	Testimonial string    `json:"testimonial"`
+	ID          uuid.UUID
+	Name        string
+	Testimonial string
 }
 
 func NewTestimonial(name string, testimonial string) *Testimonial {
