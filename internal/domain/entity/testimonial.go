@@ -1,6 +1,8 @@
 package entity
 
 import (
+	"errors"
+
 	"github.com/google/uuid"
 )
 
@@ -16,4 +18,15 @@ func NewTestimonial(name string, testimonial string) *Testimonial {
 		Name:        name,
 		Testimonial: testimonial,
 	}
+}
+
+func (t *Testimonial) Validate() error {
+	if t.Name == "" {
+		return errors.New("name is required")
+	}
+	if t.Testimonial == "" {
+		return errors.New("testimonial is required")
+	}
+	return nil
+
 }
