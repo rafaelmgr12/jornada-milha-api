@@ -14,13 +14,13 @@ type TestimonialsUseCase struct {
 
 type TestimonialCreateDTO struct {
 	Name        string `json:"name"`
-	Testimonial string `json:"Testimonial"`
+	Testimonial string `json:"testimonial"`
 }
 
 type TestimonialUpdateDTO struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
-	Testimonial string `json:"Testimonial"`
+	Testimonial string `json:"testimonial"`
 }
 
 type TestimonialListDTO struct {
