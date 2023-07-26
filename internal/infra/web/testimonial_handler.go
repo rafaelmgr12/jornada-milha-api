@@ -2,9 +2,11 @@ package web
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/usecase/testimonials"
 )
 
@@ -129,7 +131,8 @@ func (h *WebTestimonialHandler) DeleteTestimonial(w http.ResponseWriter, r *http
 		return
 	}
 
-	id := r.URL.Query().Get("id")
+	id := chi.URLParam(r, "id")
+	fmt.Println(id)
 	if id == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
