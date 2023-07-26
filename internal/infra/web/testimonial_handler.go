@@ -20,6 +20,15 @@ func NewWebTestimonialHandler(testimonialUseCase testimonials.TestimonialsUseCas
 	}
 }
 
+// CreateTestimonial godoc
+// @Summary      Create a Testimonial
+// @Description  Create a Testimonial
+// @Tags         testimonials
+// @Accept       json
+// @Produce      json
+// @Param        body     body    testimonials.TestimonialCreateDTO   true        "TestimonialCreateDTO"
+// @Success      200  {object}  entity.Testimonial
+// @Router       /api/v1/depoimentos [post]
 func (h *WebTestimonialHandler) CreateTestimonial(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodPost {

@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 type WebServer struct {
@@ -15,6 +16,10 @@ type WebServer struct {
 func NewWebServer(webServerPort string) *WebServer {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
+
+	router.Get("/swagger/*", httpSwagger.Handler(
+		httpSwagger.URL("http://localhost:8080/swagger/doc.json"), //The url pointing to API definition
+	))
 
 	return &WebServer{
 		WebServerPort: webServerPort,

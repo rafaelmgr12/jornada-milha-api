@@ -8,11 +8,23 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/rafaelmgr12/jornada-milha-api/configs"
+	_ "github.com/rafaelmgr12/jornada-milha-api/docs"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/infra/repository"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/infra/web"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/infra/web/webserver"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/usecase/testimonials"
 )
+
+// @title Jorna Milha API
+// @version 1.0
+
+// @contact.name Rafael Ribeiro
+// @contact.email ribeirorafaelmatheus@gmail.com
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @BasePath /v2
 
 func main() {
 
