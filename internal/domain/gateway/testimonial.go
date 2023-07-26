@@ -7,8 +7,8 @@ import (
 )
 
 type TestimonialGateway interface {
-	CreateTestimonial(ctx context.Context, name string, testimonial string) error
-	ReadTestimonial(ctx context.Context) ([]*entity.Testimonial, error)
-	UpdateTestimonial(ctx context.Context, id string, name string, testimonial string) error
+	CreateTestimonial(ctx context.Context, testimonial entity.Testimonial) (entity.Testimonial, error)
+	ReadTestimonial(ctx context.Context) ([]entity.Testimonial, error)
+	UpdateTestimonial(ctx context.Context, testimonial entity.Testimonial) (entity.Testimonial, error)
 	DeleteTestimonial(ctx context.Context, id string) error
 }
