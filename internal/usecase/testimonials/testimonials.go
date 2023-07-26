@@ -2,6 +2,8 @@ package testimonials
 
 import (
 	"context"
+	"math/rand"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/domain/entity"
@@ -80,5 +82,18 @@ func (uc *TestimonialsUseCase) UpdateTestimonial(ctx context.Context, dto Testim
 
 func (uc *TestimonialsUseCase) DeleteTestimonial(ctx context.Context, id string) error {
 	return uc.TestimonialGateway.DeleteTestimonial(ctx, id)
+
+}
+
+func (uc *TestimonialsUseCase) GetThreeRandomTestimonials(ctx context.Context) ([]entity.Testimonial, error) {
+	testimonials, err := uc.TestimonialGateway.ReadTestimonial(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(testimonials), func(i, j int) { testimonials[i], testimonials[j] = testimonials[j], testimonials[i] })
+
+	return testimonials[:3], nil
 
 }

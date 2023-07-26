@@ -181,3 +181,33 @@ func (h *WebTestimonialHandler) DeleteTestimonial(w http.ResponseWriter, r *http
 
 	w.WriteHeader(http.StatusOK)
 }
+
+// GetThreeRandonTestimonial godoc
+// @Summary      Retrieve three random Testimonials
+// @Description  Get a list of three random Testimonials
+// @Tags         testimonials
+// @Accept       json
+// @Produce      json
+// @Success      200  {array}  entity.Testimonial
+// @Router       /api/v1/testimonials//depoimentos-home [get]
+func (h *WebTestimonialHandler) GetThreeRandonTestimonial(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
+	testimonials, err := h.TestimonialUseCase.GetThreeRandomTestimonials(r.Context())
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	result, err := json.Marshal(testimonials)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
+}
