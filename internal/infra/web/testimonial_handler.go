@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/rafaelmgr12/jornada-milha-api/usecase/testimonials"
+	"github.com/rafaelmgr12/jornada-milha-api/internal/usecase/testimonials"
 )
 
 type WebTestimonialHandler struct {
@@ -43,7 +43,7 @@ func (h *WebTestimonialHandler) CreateTestimonial(w http.ResponseWriter, r *http
 		return
 	}
 
-	createdTestimonial := h.TestimonialUseCase.CreateTestimonial(r.Context(), dto)
+	createdTestimonial, err := h.TestimonialUseCase.CreateTestimonial(r.Context(), dto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -106,13 +106,21 @@ func (h *WebTestimonialHandler) UpdateTestimonial(w http.ResponseWriter, r *http
 		return
 	}
 
-	err = h.TestimonialUseCase.UpdateTestimonial(r.Context(), dto)
+	res, err := h.TestimonialUseCase.UpdateTestimonial(r.Context(), dto)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	result, err := json.Marshal(res)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
 }
 
 func (h *WebTestimonialHandler) DeleteTestimonial(w http.ResponseWriter, r *http.Request) {
