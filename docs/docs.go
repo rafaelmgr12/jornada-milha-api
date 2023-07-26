@@ -56,6 +56,93 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/v1/testimonials": {
+            "get": {
+                "description": "Get a list of all Testimonials",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "testimonials"
+                ],
+                "summary": "Retrieve all Testimonials",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.Testimonial"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update a specific Testimonial",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "testimonials"
+                ],
+                "summary": "Update a Testimonial",
+                "parameters": [
+                    {
+                        "description": "TestimonialUpdateDTO",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/testimonials.TestimonialUpdateDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Testimonial"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/testimonials/{id}": {
+            "delete": {
+                "description": "Delete a specific Testimonial",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "testimonials"
+                ],
+                "summary": "Delete a Testimonial",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Testimonial ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -76,10 +163,24 @@ const docTemplate = `{
         "testimonials.TestimonialCreateDTO": {
             "type": "object",
             "properties": {
-                "Testimonial": {
+                "name": {
+                    "type": "string"
+                },
+                "testimonial": {
+                    "type": "string"
+                }
+            }
+        },
+        "testimonials.TestimonialUpdateDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "testimonial": {
                     "type": "string"
                 }
             }

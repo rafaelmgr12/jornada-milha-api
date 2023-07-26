@@ -71,6 +71,14 @@ func (h *WebTestimonialHandler) CreateTestimonial(w http.ResponseWriter, r *http
 	w.Write(result)
 }
 
+// GetListTestimonials godoc
+// @Summary      Retrieve all Testimonials
+// @Description  Get a list of all Testimonials
+// @Tags         testimonials
+// @Accept       json
+// @Produce      json
+// @Success      200  {array}  entity.Testimonial
+// @Router       /api/v1/testimonials [get]
 func (h *WebTestimonialHandler) GetListTestimonials(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -93,6 +101,15 @@ func (h *WebTestimonialHandler) GetListTestimonials(w http.ResponseWriter, r *ht
 	w.Write(result)
 }
 
+// UpdateTestimonial godoc
+// @Summary      Update a Testimonial
+// @Description  Update a specific Testimonial
+// @Tags         testimonials
+// @Accept       json
+// @Produce      json
+// @Param        body     body    testimonials.TestimonialUpdateDTO   true        "TestimonialUpdateDTO"
+// @Success      200  {object}  entity.Testimonial
+// @Router       /api/v1/testimonials [put]
 func (h *WebTestimonialHandler) UpdateTestimonial(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPut {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -134,6 +151,15 @@ func (h *WebTestimonialHandler) UpdateTestimonial(w http.ResponseWriter, r *http
 	w.Write(result)
 }
 
+// DeleteTestimonial godoc
+// @Summary      Delete a Testimonial
+// @Description  Delete a specific Testimonial
+// @Tags         testimonials
+// @Accept       json
+// @Produce      json
+// @Param        id     path    string   true        "Testimonial ID"
+// @Success      200
+// @Router       /api/v1/testimonials/{id} [delete]
 func (h *WebTestimonialHandler) DeleteTestimonial(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodDelete {
 		w.WriteHeader(http.StatusMethodNotAllowed)
