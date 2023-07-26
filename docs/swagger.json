@@ -1,0 +1,79 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Jorna Milha API",
+        "contact": {
+            "name": "Rafael Ribeiro",
+            "email": "ribeirorafaelmatheus@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "basePath": "/v2",
+    "paths": {
+        "/api/v1/depoimentos": {
+            "post": {
+                "description": "Create a Testimonial",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "testimonials"
+                ],
+                "summary": "Create a Testimonial",
+                "parameters": [
+                    {
+                        "description": "TestimonialCreateDTO",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/testimonials.TestimonialCreateDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Testimonial"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entity.Testimonial": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "testimonial": {
+                    "type": "string"
+                }
+            }
+        },
+        "testimonials.TestimonialCreateDTO": {
+            "type": "object",
+            "properties": {
+                "Testimonial": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

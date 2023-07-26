@@ -1,0 +1,51 @@
+basePath: /v2
+definitions:
+  entity.Testimonial:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      testimonial:
+        type: string
+    type: object
+  testimonials.TestimonialCreateDTO:
+    properties:
+      Testimonial:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact:
+    email: ribeirorafaelmatheus@gmail.com
+    name: Rafael Ribeiro
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Jorna Milha API
+  version: "1.0"
+paths:
+  /api/v1/depoimentos:
+    post:
+      consumes:
+      - application/json
+      description: Create a Testimonial
+      parameters:
+      - description: TestimonialCreateDTO
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/testimonials.TestimonialCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Testimonial'
+      summary: Create a Testimonial
+      tags:
+      - testimonials
+swagger: "2.0"
