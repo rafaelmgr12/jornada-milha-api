@@ -34,10 +34,10 @@ func main() {
 	webserver := webserver.NewWebServer(":" + configs.WebServerPort)
 	webserverTestimonialHandler := web.NewWebTestimonialHandler(*usecase)
 
-	webserver.AddHandlerWithMethod("/api/v1/testimonials", http.MethodPost, webserverTestimonialHandler.CreateTestimonial)
-	webserver.AddHandlerWithMethod("/api/v1/testimonials", http.MethodGet, webserverTestimonialHandler.GetListTestimonials)
-	webserver.AddHandlerWithMethod("/api/v1/testimonials", http.MethodPut, webserverTestimonialHandler.UpdateTestimonial)
-	webserver.AddHandlerWithMethod("/api/v1/testimonials/{id}", http.MethodDelete, webserverTestimonialHandler.DeleteTestimonial)
+	webserver.AddHandlerWithMethod("/api/v1/depoimentos", http.MethodPost, webserverTestimonialHandler.CreateTestimonial)
+	webserver.AddHandlerWithMethod("/api/v1/depoimentos", http.MethodGet, webserverTestimonialHandler.GetListTestimonials)
+	webserver.AddHandlerWithMethod("/api/v1/depoimentos", http.MethodPut, webserverTestimonialHandler.UpdateTestimonial)
+	webserver.AddHandlerWithMethod("/api/v1/depoimentos/{id}", http.MethodDelete, webserverTestimonialHandler.DeleteTestimonial)
 
 	log.Println("Server running on port " + configs.WebServerPort)
 
