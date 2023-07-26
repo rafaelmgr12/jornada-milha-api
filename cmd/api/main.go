@@ -36,7 +36,7 @@ func main() {
 
 	webserver.AddHandlerWithMethod("/api/v1/testimonials", http.MethodPost, webserverTestimonialHandler.CreateTestimonial)
 	webserver.AddHandlerWithMethod("/api/v1/testimonials", http.MethodGet, webserverTestimonialHandler.GetListTestimonials)
-	webserver.AddHandlerWithMethod("/api/v1/testimonials/{id}", http.MethodPut, webserverTestimonialHandler.UpdateTestimonial)
+	webserver.AddHandlerWithMethod("/api/v1/testimonials", http.MethodPut, webserverTestimonialHandler.UpdateTestimonial)
 	webserver.AddHandlerWithMethod("/api/v1/testimonials/{id}", http.MethodDelete, webserverTestimonialHandler.DeleteTestimonial)
 
 	log.Println("Server running on port " + configs.WebServerPort)
