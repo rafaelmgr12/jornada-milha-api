@@ -2,7 +2,6 @@ package web
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -167,7 +166,6 @@ func (h *WebTestimonialHandler) DeleteTestimonial(w http.ResponseWriter, r *http
 	}
 
 	id := chi.URLParam(r, "id")
-	fmt.Println(id)
 	if id == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
