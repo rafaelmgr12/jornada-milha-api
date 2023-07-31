@@ -178,3 +178,43 @@ func (h *WebDestinationsHandler) DeleteDestinations(w http.ResponseWriter, r *ht
 
 	w.WriteHeader(http.StatusOK)
 }
+
+// SearchDestinationsByName godoc
+// @Summary Search destinations by name
+// @Description Search destinations by name
+// @Tags destinations
+// @Accept json
+// @Produce json
+// @Param nome query string true "Destination Name"
+// @Success 200 {array} entity.Destinations
+// @Failure 404 {object} map[string]string "mensagem": "Nenhum destino foi encontrado"
+// @Router /api/v1/destinos [get]
+func (h *WebDestinationsHandler) SearchDestinationsByName(w http.ResponseWriter, r *http.Request) {
+	name := r.URL.Query().Get("nome")
+	if name == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	destinations, err := h.DestinationsUseCase.SearchDestinationsByName(r.Context(), name)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if len(destinations) == 0 {
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(map[string]string{"mensagem": "Nenhum destino foi encontrado"})
+		return
+	}
+
+	result, err := json.Marshal(destinations)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
+}

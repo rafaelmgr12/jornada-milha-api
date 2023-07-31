@@ -11,4 +11,5 @@ type DestinationsGateway interface {
 	ReadDestinations(ctx context.Context) ([]entity.Destinations, error)
 	UpdateDestinations(ctx context.Context, destinations entity.Destinations) (entity.Destinations, error)
 	DeleteDestinations(ctx context.Context, id string) error
+	GetDestinationsByName(ctx context.Context, name string) ([]entity.Destinations, error)
 }

@@ -95,6 +95,40 @@ func (q *Queries) GetDestination(ctx context.Context) ([]Destination, error) {
 	return items, nil
 }
 
+const getDestinationsByName = `-- name: GetDestinationsByName :many
+SELECT id, name, price, photo
+FROM destinations
+WHERE name LIKE CONCAT('%', ?, '%')
+`
+
+func (q *Queries) GetDestinationsByName(ctx context.Context, concat interface{}) ([]Destination, error) {
+	rows, err := q.db.QueryContext(ctx, getDestinationsByName, concat)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Destination
+	for rows.Next() {
+		var i Destination
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Price,
+			&i.Photo,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getTestimonial = `-- name: GetTestimonial :many
 SELECT id, name, testimonial FROM testimonials ORDER BY name
 `

@@ -80,3 +80,22 @@ func (d *DestinationsRepository) DeleteDestinations(ctx context.Context, id stri
 	}
 	return nil
 }
+
+func (d *DestinationsRepository) GetDestinationsByName(ctx context.Context, name string) ([]entity.Destinations, error) {
+	res, err := d.Queries.GetDestinationsByName(ctx, name)
+	if err != nil {
+		return nil, err
+	}
+
+	destinations := make([]entity.Destinations, len(res))
+	for i, destination := range res {
+		destinations[i] = entity.Destinations{
+			ID:    uuid.MustParse(destination.ID),
+			Name:  destination.Name,
+			Price: destination.Price,
+			Photo: destination.Photo,
+		}
+	}
+
+	return destinations, nil
+}

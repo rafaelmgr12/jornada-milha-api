@@ -86,3 +86,12 @@ func (uc *DestinationsUseCase) UpdateDestinations(ctx context.Context, dto Desti
 func (uc *DestinationsUseCase) DeleteDestinations(ctx context.Context, id string) error {
 	return uc.DestinationsGateway.DeleteDestinations(ctx, id)
 }
+
+func (uc *DestinationsUseCase) SearchDestinationsByName(ctx context.Context, name string) ([]entity.Destinations, error) {
+	destinations, err := uc.DestinationsGateway.GetDestinationsByName(ctx, name)
+	if err != nil {
+		return nil, err
+	}
+
+	return destinations, nil
+}
