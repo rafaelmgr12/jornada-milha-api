@@ -6,6 +6,13 @@ package db
 
 import ()
 
+type Destination struct {
+	ID    string
+	Name  string
+	Price float64
+	Photo string
+}
+
 type Testimonial struct {
 	ID          string
 	Name        string

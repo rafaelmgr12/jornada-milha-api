@@ -9,6 +9,27 @@ import (
 	"context"
 )
 
+const createDestination = `-- name: CreateDestination :exec
+INSERT INTO destinations (id, name, price, photo) VALUES (?, ?, ?, ?)
+`
+
+type CreateDestinationParams struct {
+	ID    string
+	Name  string
+	Price float64
+	Photo string
+}
+
+func (q *Queries) CreateDestination(ctx context.Context, arg CreateDestinationParams) error {
+	_, err := q.db.ExecContext(ctx, createDestination,
+		arg.ID,
+		arg.Name,
+		arg.Price,
+		arg.Photo,
+	)
+	return err
+}
+
 const createTestimonial = `-- name: CreateTestimonial :exec
 INSERT INTO testimonials (id, name, testimonial) VALUES (?, ?, ?)
 `
@@ -24,6 +45,15 @@ func (q *Queries) CreateTestimonial(ctx context.Context, arg CreateTestimonialPa
 	return err
 }
 
+const deleteDestination = `-- name: DeleteDestination :exec
+DELETE FROM destinations WHERE id = ?
+`
+
+func (q *Queries) DeleteDestination(ctx context.Context, id string) error {
+	_, err := q.db.ExecContext(ctx, deleteDestination, id)
+	return err
+}
+
 const deleteTestimonial = `-- name: DeleteTestimonial :exec
 DELETE FROM testimonials WHERE id = ?
 `
@@ -31,6 +61,38 @@ DELETE FROM testimonials WHERE id = ?
 func (q *Queries) DeleteTestimonial(ctx context.Context, id string) error {
 	_, err := q.db.ExecContext(ctx, deleteTestimonial, id)
 	return err
+}
+
+const getDestination = `-- name: GetDestination :many
+SELECT id, name, price, photo FROM destinations ORDER BY name
+`
+
+func (q *Queries) GetDestination(ctx context.Context) ([]Destination, error) {
+	rows, err := q.db.QueryContext(ctx, getDestination)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Destination
+	for rows.Next() {
+		var i Destination
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Price,
+			&i.Photo,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getTestimonial = `-- name: GetTestimonial :many
@@ -58,6 +120,27 @@ func (q *Queries) GetTestimonial(ctx context.Context) ([]Testimonial, error) {
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateDestination = `-- name: UpdateDestination :exec
+UPDATE destinations SET name = ?, price = ?, photo = ? WHERE id = ?
+`
+
+type UpdateDestinationParams struct {
+	Name  string
+	Price float64
+	Photo string
+	ID    string
+}
+
+func (q *Queries) UpdateDestination(ctx context.Context, arg UpdateDestinationParams) error {
+	_, err := q.db.ExecContext(ctx, updateDestination,
+		arg.Name,
+		arg.Price,
+		arg.Photo,
+		arg.ID,
+	)
+	return err
 }
 
 const updateTestimonial = `-- name: UpdateTestimonial :exec
