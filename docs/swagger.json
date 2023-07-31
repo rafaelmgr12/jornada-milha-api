@@ -15,40 +15,6 @@
     "basePath": "/v2",
     "paths": {
         "/api/v1/depoimentos": {
-            "post": {
-                "description": "Create a Testimonial",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "testimonials"
-                ],
-                "summary": "Create a Testimonial",
-                "parameters": [
-                    {
-                        "description": "TestimonialCreateDTO",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/testimonials.TestimonialCreateDTO"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/entity.Testimonial"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/testimonials": {
             "get": {
                 "description": "Get a list of all Testimonials",
                 "consumes": [
@@ -104,9 +70,67 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Create a Testimonial",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "testimonials"
+                ],
+                "summary": "Create a Testimonial",
+                "parameters": [
+                    {
+                        "description": "TestimonialCreateDTO",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/testimonials.TestimonialCreateDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Testimonial"
+                        }
+                    }
+                }
             }
         },
-        "/api/v1/testimonials/{id}": {
+        "/api/v1/depoimentos-home": {
+            "get": {
+                "description": "Get a list of three random Testimonials",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "testimonials"
+                ],
+                "summary": "Retrieve three random Testimonials",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.Testimonial"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/depoimentos/{id}": {
             "delete": {
                 "description": "Delete a specific Testimonial",
                 "consumes": [

@@ -78,7 +78,7 @@ func (h *WebTestimonialHandler) CreateTestimonial(w http.ResponseWriter, r *http
 // @Accept       json
 // @Produce      json
 // @Success      200  {array}  entity.Testimonial
-// @Router       /api/v1/testimonials [get]
+// @Router       /api/v1/depoimentos [get]
 func (h *WebTestimonialHandler) GetListTestimonials(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -109,7 +109,7 @@ func (h *WebTestimonialHandler) GetListTestimonials(w http.ResponseWriter, r *ht
 // @Produce      json
 // @Param        body     body    testimonials.TestimonialUpdateDTO   true        "TestimonialUpdateDTO"
 // @Success      200  {object}  entity.Testimonial
-// @Router       /api/v1/testimonials [put]
+// @Router       /api/v1/depoimentos [put]
 func (h *WebTestimonialHandler) UpdateTestimonial(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPut {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -159,7 +159,7 @@ func (h *WebTestimonialHandler) UpdateTestimonial(w http.ResponseWriter, r *http
 // @Produce      json
 // @Param        id     path    string   true        "Testimonial ID"
 // @Success      200
-// @Router       /api/v1/testimonials/{id} [delete]
+// @Router       /api/v1/depoimentos/{id} [delete]
 func (h *WebTestimonialHandler) DeleteTestimonial(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodDelete {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -189,7 +189,7 @@ func (h *WebTestimonialHandler) DeleteTestimonial(w http.ResponseWriter, r *http
 // @Accept       json
 // @Produce      json
 // @Success      200  {array}  entity.Testimonial
-// @Router       /api/v1/testimonials//depoimentos-home [get]
+// @Router       /api/v1/depoimentos-home [get]
 func (h *WebTestimonialHandler) GetThreeRandonTestimonial(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		w.WriteHeader(http.StatusMethodNotAllowed)
