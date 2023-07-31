@@ -9,3 +9,15 @@ UPDATE testimonials SET name = ?, testimonial = ? WHERE id = ?;
 
 -- name: DeleteTestimonial :exec
 DELETE FROM testimonials WHERE id = ?;
+
+-- name: CreateDestination :exec
+INSERT INTO destinations (id, name, price, photo) VALUES (?, ?, ?, ?);
+
+-- name: GetDestination :many
+SELECT * FROM destinations ORDER BY name;
+
+-- name: UpdateDestination :exec
+UPDATE destinations SET name = ?, price = ?, photo = ? WHERE id = ?;
+
+-- name: DeleteDestination :exec
+DELETE FROM destinations WHERE id = ?;
