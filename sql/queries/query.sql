@@ -21,3 +21,8 @@ UPDATE destinations SET name = ?, price = ?, photo = ? WHERE id = ?;
 
 -- name: DeleteDestination :exec
 DELETE FROM destinations WHERE id = ?;
+
+-- name: GetDestinationsByName :many
+SELECT id, name, price, photo
+FROM destinations
+WHERE name LIKE CONCAT('%', ?, '%');
