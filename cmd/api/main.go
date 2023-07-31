@@ -12,6 +12,7 @@ import (
 	"github.com/rafaelmgr12/jornada-milha-api/internal/infra/repository"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/infra/web"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/infra/web/webserver"
+	"github.com/rafaelmgr12/jornada-milha-api/internal/usecase/destinations"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/usecase/testimonials"
 )
 
@@ -40,17 +41,26 @@ func main() {
 	}
 	defer conn.Close()
 
-	repo := repository.NewTestimonialRepository(conn)
-	usecase := testimonials.NewTestimonialsUseCase(repo)
+	repoTestimonials := repository.NewTestimonialRepository(conn)
+	repoDestinations := repository.NewDestinationsRepository(conn)
+
+	usecaseTestimonials := testimonials.NewTestimonialsUseCase(repoTestimonials)
+	usecaseDestinations := destinations.NewDestinationsUseCase(repoDestinations)
 
 	webserver := webserver.NewWebServer(":" + configs.WebServerPort)
-	webserverTestimonialHandler := web.NewWebTestimonialHandler(*usecase)
+	webserverTestimonialHandler := web.NewWebTestimonialHandler(*usecaseTestimonials)
+	webserverDestinationsHandler := web.NewWebDestinationsHandler(*usecaseDestinations)
 
 	webserver.AddHandlerWithMethod("/api/v1/depoimentos", http.MethodPost, webserverTestimonialHandler.CreateTestimonial)
 	webserver.AddHandlerWithMethod("/api/v1/depoimentos", http.MethodGet, webserverTestimonialHandler.GetListTestimonials)
 	webserver.AddHandlerWithMethod("/api/v1/depoimentos", http.MethodPut, webserverTestimonialHandler.UpdateTestimonial)
 	webserver.AddHandlerWithMethod("/api/v1/depoimentos/{id}", http.MethodDelete, webserverTestimonialHandler.DeleteTestimonial)
 	webserver.AddHandlerWithMethod("/api/v1/depoimentos-home", http.MethodGet, webserverTestimonialHandler.GetThreeRandonTestimonial)
+
+	webserver.AddHandlerWithMethod("/api/v1/destinos", http.MethodPost, webserverDestinationsHandler.CreateDestinations)
+	webserver.AddHandlerWithMethod("/api/v1/destinos", http.MethodGet, webserverDestinationsHandler.GetListDestinations)
+	webserver.AddHandlerWithMethod("/api/v1/destinos", http.MethodPut, webserverDestinationsHandler.UpdateDestinations)
+	webserver.AddHandlerWithMethod("/api/v1/destinos/{id}", http.MethodDelete, webserverDestinationsHandler.DeleteDestinations)
 
 	log.Println("Server running on port " + configs.WebServerPort)
 
