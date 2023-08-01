@@ -7,25 +7,32 @@ package db
 
 import (
 	"context"
+	"database/sql"
 )
 
 const createDestination = `-- name: CreateDestination :exec
-INSERT INTO destinations (id, name, price, photo) VALUES (?, ?, ?, ?)
+INSERT INTO destinations (id, photo1, photo2, name, meta, text_description, price) VALUES (?, ?, ?, ?, ?, ?, ?)
 `
 
 type CreateDestinationParams struct {
-	ID    string
-	Name  string
-	Price float64
-	Photo string
+	ID              string
+	Photo1          string
+	Photo2          string
+	Name            string
+	Meta            string
+	TextDescription sql.NullString
+	Price           float64
 }
 
 func (q *Queries) CreateDestination(ctx context.Context, arg CreateDestinationParams) error {
 	_, err := q.db.ExecContext(ctx, createDestination,
 		arg.ID,
+		arg.Photo1,
+		arg.Photo2,
 		arg.Name,
+		arg.Meta,
+		arg.TextDescription,
 		arg.Price,
-		arg.Photo,
 	)
 	return err
 }
@@ -64,23 +71,36 @@ func (q *Queries) DeleteTestimonial(ctx context.Context, id string) error {
 }
 
 const getDestination = `-- name: GetDestination :many
-SELECT id, name, price, photo FROM destinations ORDER BY name
+SELECT id, photo1, photo2, name, meta, text_description, price FROM destinations ORDER BY name
 `
 
-func (q *Queries) GetDestination(ctx context.Context) ([]Destination, error) {
+type GetDestinationRow struct {
+	ID              string
+	Photo1          string
+	Photo2          string
+	Name            string
+	Meta            string
+	TextDescription sql.NullString
+	Price           float64
+}
+
+func (q *Queries) GetDestination(ctx context.Context) ([]GetDestinationRow, error) {
 	rows, err := q.db.QueryContext(ctx, getDestination)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Destination
+	var items []GetDestinationRow
 	for rows.Next() {
-		var i Destination
+		var i GetDestinationRow
 		if err := rows.Scan(
 			&i.ID,
+			&i.Photo1,
+			&i.Photo2,
 			&i.Name,
+			&i.Meta,
+			&i.TextDescription,
 			&i.Price,
-			&i.Photo,
 		); err != nil {
 			return nil, err
 		}
@@ -96,25 +116,38 @@ func (q *Queries) GetDestination(ctx context.Context) ([]Destination, error) {
 }
 
 const getDestinationsByName = `-- name: GetDestinationsByName :many
-SELECT id, name, price, photo
+SELECT id, photo1, photo2, name, meta, text_description, price
 FROM destinations
 WHERE name LIKE CONCAT('%', ?, '%')
 `
 
-func (q *Queries) GetDestinationsByName(ctx context.Context, concat interface{}) ([]Destination, error) {
+type GetDestinationsByNameRow struct {
+	ID              string
+	Photo1          string
+	Photo2          string
+	Name            string
+	Meta            string
+	TextDescription sql.NullString
+	Price           float64
+}
+
+func (q *Queries) GetDestinationsByName(ctx context.Context, concat interface{}) ([]GetDestinationsByNameRow, error) {
 	rows, err := q.db.QueryContext(ctx, getDestinationsByName, concat)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Destination
+	var items []GetDestinationsByNameRow
 	for rows.Next() {
-		var i Destination
+		var i GetDestinationsByNameRow
 		if err := rows.Scan(
 			&i.ID,
+			&i.Photo1,
+			&i.Photo2,
 			&i.Name,
+			&i.Meta,
+			&i.TextDescription,
 			&i.Price,
-			&i.Photo,
 		); err != nil {
 			return nil, err
 		}
@@ -157,21 +190,27 @@ func (q *Queries) GetTestimonial(ctx context.Context) ([]Testimonial, error) {
 }
 
 const updateDestination = `-- name: UpdateDestination :exec
-UPDATE destinations SET name = ?, price = ?, photo = ? WHERE id = ?
+UPDATE destinations SET photo1 = ?, photo2 = ?, name = ?, meta = ?, text_description = ?, price = ? WHERE id = ?
 `
 
 type UpdateDestinationParams struct {
-	Name  string
-	Price float64
-	Photo string
-	ID    string
+	Photo1          string
+	Photo2          string
+	Name            string
+	Meta            string
+	TextDescription sql.NullString
+	Price           float64
+	ID              string
 }
 
 func (q *Queries) UpdateDestination(ctx context.Context, arg UpdateDestinationParams) error {
 	_, err := q.db.ExecContext(ctx, updateDestination,
+		arg.Photo1,
+		arg.Photo2,
 		arg.Name,
+		arg.Meta,
+		arg.TextDescription,
 		arg.Price,
-		arg.Photo,
 		arg.ID,
 	)
 	return err

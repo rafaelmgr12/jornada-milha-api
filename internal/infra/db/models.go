@@ -4,13 +4,18 @@
 
 package db
 
-import ()
+import (
+	"database/sql"
+)
 
 type Destination struct {
-	ID    string
-	Name  string
-	Price float64
-	Photo string
+	ID              string
+	Name            string
+	Price           float64
+	Photo1          string
+	Photo2          string
+	Meta            string
+	TextDescription sql.NullString
 }
 
 type Testimonial struct {
