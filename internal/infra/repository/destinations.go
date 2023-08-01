@@ -106,3 +106,22 @@ func (d *DestinationsRepository) GetDestinationsByName(ctx context.Context, name
 
 	return destinations, nil
 }
+
+func (d *DestinationsRepository) GetDestinationsByID(ctx context.Context, id string) (entity.Destinations, error) {
+	res, err := d.Queries.GetDestinationById(ctx, id)
+	if err != nil {
+		return entity.Destinations{}, err
+	}
+
+	destination := entity.Destinations{
+		ID:              uuid.MustParse(res.ID),
+		Name:            res.Name,
+		Price:           res.Price,
+		Photo1:          res.Photo1,
+		Photo2:          res.Photo2,
+		Meta:            res.Meta,
+		DescriptiveText: res.TextDescription,
+	}
+
+	return destination, nil
+}

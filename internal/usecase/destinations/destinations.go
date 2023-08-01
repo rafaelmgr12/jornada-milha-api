@@ -112,3 +112,12 @@ func (uc *DestinationsUseCase) SearchDestinationsByName(ctx context.Context, nam
 
 	return destinations, nil
 }
+
+func (uc *DestinationsUseCase) SearchDestinationsByID(ctx context.Context, id string) (entity.Destinations, error) {
+	destinations, err := uc.DestinationsGateway.GetDestinationsByID(ctx, id)
+	if err != nil {
+		return entity.Destinations{}, err
+	}
+
+	return destinations, nil
+}

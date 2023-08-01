@@ -2,6 +2,7 @@ package web
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 
@@ -205,6 +206,46 @@ func (h *WebDestinationsHandler) SearchDestinationsByName(w http.ResponseWriter,
 	if len(destinations) == 0 {
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(map[string]string{"mensagem": "Nenhum destino foi encontrado"})
+		return
+	}
+
+	result, err := json.Marshal(destinations)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(result)
+}
+
+// SearchDestinationsById godoc
+// @Summary Search destinations by id
+// @Description Search destinations by id
+// @Tags destinations
+// @Accept json
+// @Produce json
+// @Param id path string true "Destination ID"
+// @Success 200 {object} entity.Destinations
+// @Router /api/v1/query/destinos/{id} [get]
+func (h *WebDestinationsHandler) SearchDestinationsById(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	var ErrDestinationNotFound = errors.New("nenhum destino foi encontrado")
+
+	if id == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	destinations, err := h.DestinationsUseCase.SearchDestinationsByID(r.Context(), id)
+	if err != nil {
+		if err == ErrDestinationNotFound { // Supondo que você tenha definido esse erro no caso de uso
+			w.WriteHeader(http.StatusNotFound)
+			json.NewEncoder(w).Encode(map[string]string{"mensagem": "Nenhum destino foi encontrado"})
+		} else {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
 		return
 	}
 

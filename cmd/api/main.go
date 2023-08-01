@@ -62,6 +62,7 @@ func main() {
 	webserver.AddHandlerWithMethod("/api/v1/destinos", http.MethodPut, webserverDestinationsHandler.UpdateDestinations)
 	webserver.AddHandlerWithMethod("/api/v1/destinos/{id}", http.MethodDelete, webserverDestinationsHandler.DeleteDestinations)
 	webserver.AddHandlerWithMethod("/api/v1/query/destinos", http.MethodGet, webserverDestinationsHandler.SearchDestinationsByName)
+	webserver.AddHandlerWithMethod("/api/v1/destinos/{id}", http.MethodGet, webserverDestinationsHandler.SearchDestinationsById)
 
 	log.Println("Server running on port " + configs.WebServerPort)
 
