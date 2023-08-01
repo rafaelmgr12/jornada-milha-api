@@ -50,15 +50,11 @@ func TestSearchDestinationsByName(t *testing.T) {
 		},
 	}, nil)
 
-	// Cria o caso de uso
 	usecase := destinations.NewDestinationsUseCase(gateway)
 
-	// Executa a função
 	destinations, err := usecase.SearchDestinationsByName(context.Background(), "Paris")
 
-	// Verifica o resultado
 	assert.NoError(t, err)
 	assert.Len(t, destinations, 1)
 	assert.Equal(t, "Paris", destinations[0].Name)
-	// Adicione mais verificações conforme necessário
 }
