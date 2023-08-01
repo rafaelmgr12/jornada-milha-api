@@ -109,7 +109,7 @@ func (h *WebDestinationsHandler) GetListDestinations(w http.ResponseWriter, r *h
 // @Produce json
 // @Param  body body destinations.DestinationsUpdateDTO true 	  "DestinationUpdateDTO"
 // Success      200  {object}  entity.Destinations
-// @Router       /api/v1/destinos/{id} [put]
+// @Router       /api/v1/destinos [put]
 func (h *WebDestinationsHandler) UpdateDestinations(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPut {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -188,7 +188,7 @@ func (h *WebDestinationsHandler) DeleteDestinations(w http.ResponseWriter, r *ht
 // @Param nome query string true "Destination Name"
 // @Success 200 {array} entity.Destinations
 // @Failure 404 {object} map[string]string "mensagem": "Nenhum destino foi encontrado"
-// @Router /api/v1/destinos [get]
+// @Router /api/v1/query/destinos [get]
 func (h *WebDestinationsHandler) SearchDestinationsByName(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("nome")
 	if name == "" {
