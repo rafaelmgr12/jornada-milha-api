@@ -22,20 +22,20 @@ func NewDestinationsRepository(dbt *sql.DB) *DestinationsRepository {
 }
 
 func (d *DestinationsRepository) CreateDestinations(ctx context.Context, destinations entity.Destinations) (entity.Destinations, error) {
-
 	err := d.Queries.CreateDestination(ctx, db.CreateDestinationParams{
-		ID:    destinations.ID.String(),
-		Name:  destinations.Name,
-		Price: destinations.Price,
-		Photo: destinations.Photo,
+		ID:              destinations.ID.String(),
+		Name:            destinations.Name,
+		Price:           destinations.Price,
+		Photo1:          destinations.Photo1,
+		Photo2:          destinations.Photo2,
+		Meta:            destinations.Meta,
+		TextDescription: destinations.DescriptiveText,
 	})
 	if err != nil {
 		return entity.Destinations{}, err
 	}
-
 	return destinations, nil
 }
-
 func (d *DestinationsRepository) ReadDestinations(ctx context.Context) ([]entity.Destinations, error) {
 
 	res, err := d.Queries.GetDestination(ctx)
@@ -47,10 +47,13 @@ func (d *DestinationsRepository) ReadDestinations(ctx context.Context) ([]entity
 
 	for i, destination := range res {
 		destinations[i] = entity.Destinations{
-			ID:    uuid.MustParse(destination.ID),
-			Name:  destination.Name,
-			Price: destination.Price,
-			Photo: destination.Photo,
+			ID:              uuid.MustParse(destination.ID),
+			Name:            destination.Name,
+			Price:           destination.Price,
+			Photo1:          destination.Photo1,
+			Photo2:          destination.Photo2,
+			Meta:            destination.Meta,
+			DescriptiveText: destination.TextDescription,
 		}
 	}
 
@@ -60,16 +63,17 @@ func (d *DestinationsRepository) ReadDestinations(ctx context.Context) ([]entity
 
 func (d *DestinationsRepository) UpdateDestinations(ctx context.Context, destinations entity.Destinations) (entity.Destinations, error) {
 	err := d.Queries.UpdateDestination(ctx, db.UpdateDestinationParams{
-		ID:    destinations.ID.String(),
-		Name:  destinations.Name,
-		Price: destinations.Price,
-		Photo: destinations.Photo,
+		ID:              destinations.ID.String(),
+		Name:            destinations.Name,
+		Price:           destinations.Price,
+		Photo1:          destinations.Photo1,
+		Photo2:          destinations.Photo2,
+		Meta:            destinations.Meta,
+		TextDescription: destinations.DescriptiveText,
 	})
-
 	if err != nil {
 		return entity.Destinations{}, err
 	}
-
 	return destinations, nil
 }
 
@@ -90,10 +94,13 @@ func (d *DestinationsRepository) GetDestinationsByName(ctx context.Context, name
 	destinations := make([]entity.Destinations, len(res))
 	for i, destination := range res {
 		destinations[i] = entity.Destinations{
-			ID:    uuid.MustParse(destination.ID),
-			Name:  destination.Name,
-			Price: destination.Price,
-			Photo: destination.Photo,
+			ID:              uuid.MustParse(destination.ID),
+			Name:            destination.Name,
+			Price:           destination.Price,
+			Photo1:          destination.Photo1,
+			Photo2:          destination.Photo2,
+			Meta:            destination.Meta,
+			DescriptiveText: destination.TextDescription,
 		}
 	}
 

@@ -13,16 +13,22 @@ type DestinationsUseCase struct {
 }
 
 type DestinationsCreateDTO struct {
-	Name  string  `json:"name"`
-	Price float64 `json:"price"`
-	Photo string  `json:"photo"`
+	Name            string  `json:"name"`
+	Price           float64 `json:"price"`
+	Photo1          string  `json:"photo_1"`
+	Photo2          string  `json:"photo_2"`
+	Meta            string  `json:"meta"`
+	DescriptiveText string  `json:"descriptive_text"`
 }
 
 type DestinationsUpdateDTO struct {
-	ID    string  `json:"id"`
-	Name  string  `json:"name"`
-	Price float64 `json:"price"`
-	Photo string  `json:"photo"`
+	ID              string  `json:"id"`
+	Name            string  `json:"name"`
+	Price           float64 `json:"price"`
+	Photo1          string  `json:"photo_1"`
+	Photo2          string  `json:"photo_2"`
+	Meta            string  `json:"meta"`
+	DescriptiveText string  `json:"descriptive_text"`
 }
 
 type DestinationsListDTO struct {
@@ -30,10 +36,13 @@ type DestinationsListDTO struct {
 }
 
 type DestinationsListItemDTO struct {
-	ID    string  `json:"id"`
-	Name  string  `json:"name"`
-	Price float64 `json:"price"`
-	Photo string  `json:"photo"`
+	ID              string  `json:"id"`
+	Name            string  `json:"name"`
+	Price           float64 `json:"price"`
+	Photo1          string  `json:"photo_1"`
+	Photo2          string  `json:"photo_2"`
+	Meta            string  `json:"meta"`
+	DescriptiveText string  `json:"descriptive_text"`
 }
 
 func NewDestinationsUseCase(destinationsGateway gateway.DestinationsGateway) *DestinationsUseCase {
@@ -44,13 +53,15 @@ func NewDestinationsUseCase(destinationsGateway gateway.DestinationsGateway) *De
 
 func (uc *DestinationsUseCase) CreateDestinations(ctx context.Context, dto DestinationsCreateDTO) (entity.Destinations, error) {
 	destinations := entity.Destinations{
-		ID:    uuid.New(),
-		Name:  dto.Name,
-		Price: dto.Price,
-		Photo: dto.Photo,
+		ID:              uuid.New(),
+		Name:            dto.Name,
+		Price:           dto.Price,
+		Photo1:          dto.Photo1,
+		Photo2:          dto.Photo2,
+		Meta:            dto.Meta,
+		DescriptiveText: dto.DescriptiveText,
 	}
 	return uc.DestinationsGateway.CreateDestinations(ctx, destinations)
-
 }
 
 func (uc *DestinationsUseCase) GetListDestinations(ctx context.Context) (DestinationsListDTO, error) {
@@ -62,10 +73,13 @@ func (uc *DestinationsUseCase) GetListDestinations(ctx context.Context) (Destina
 	destinationsList := make([]DestinationsListItemDTO, len(listDestinations))
 	for i, destinations := range listDestinations {
 		destinationsList[i] = DestinationsListItemDTO{
-			ID:    destinations.ID.String(),
-			Name:  destinations.Name,
-			Price: destinations.Price,
-			Photo: destinations.Photo,
+			ID:              destinations.ID.String(),
+			Name:            destinations.Name,
+			Price:           destinations.Price,
+			Photo1:          destinations.Photo1,
+			Photo2:          destinations.Photo2,
+			Meta:            destinations.Meta,
+			DescriptiveText: destinations.DescriptiveText,
 		}
 	}
 
@@ -74,10 +88,13 @@ func (uc *DestinationsUseCase) GetListDestinations(ctx context.Context) (Destina
 
 func (uc *DestinationsUseCase) UpdateDestinations(ctx context.Context, dto DestinationsUpdateDTO) (entity.Destinations, error) {
 	newDestination := entity.Destinations{
-		ID:    uuid.MustParse(dto.ID),
-		Name:  dto.Name,
-		Price: dto.Price,
-		Photo: dto.Photo,
+		ID:              uuid.MustParse(dto.ID),
+		Name:            dto.Name,
+		Price:           dto.Price,
+		Photo1:          dto.Photo1,
+		Photo2:          dto.Photo2,
+		Meta:            dto.Meta,
+		DescriptiveText: dto.DescriptiveText,
 	}
 
 	return uc.DestinationsGateway.UpdateDestinations(ctx, newDestination)

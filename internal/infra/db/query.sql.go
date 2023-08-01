@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createDestination = `-- name: CreateDestination :exec
@@ -20,7 +19,7 @@ type CreateDestinationParams struct {
 	Photo2          string
 	Name            string
 	Meta            string
-	TextDescription sql.NullString
+	TextDescription string
 	Price           float64
 }
 
@@ -80,7 +79,7 @@ type GetDestinationRow struct {
 	Photo2          string
 	Name            string
 	Meta            string
-	TextDescription sql.NullString
+	TextDescription string
 	Price           float64
 }
 
@@ -127,7 +126,7 @@ type GetDestinationsByNameRow struct {
 	Photo2          string
 	Name            string
 	Meta            string
-	TextDescription sql.NullString
+	TextDescription string
 	Price           float64
 }
 
@@ -198,7 +197,7 @@ type UpdateDestinationParams struct {
 	Photo2          string
 	Name            string
 	Meta            string
-	TextDescription sql.NullString
+	TextDescription string
 	Price           float64
 	ID              string
 }

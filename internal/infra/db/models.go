@@ -4,9 +4,7 @@
 
 package db
 
-import (
-	"database/sql"
-)
+import ()
 
 type Destination struct {
 	ID              string
@@ -15,7 +13,7 @@ type Destination struct {
 	Photo1          string
 	Photo2          string
 	Meta            string
-	TextDescription sql.NullString
+	TextDescription string
 }
 
 type Testimonial struct {
