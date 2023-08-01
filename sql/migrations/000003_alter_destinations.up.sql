@@ -13,6 +13,6 @@ ALTER TABLE destinations ADD COLUMN photo2 TEXT NOT NULL;
 ALTER TABLE destinations ADD COLUMN meta VARCHAR(160) NOT NULL;
 
 -- Adicionando a coluna Texto descritivo, que é opcional
-ALTER TABLE destinations ADD COLUMN text_description TEXT;
+ALTER TABLE destinations ADD COLUMN text_description TEXT NOT NULL;
 
 COMMIT;
