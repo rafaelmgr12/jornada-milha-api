@@ -114,6 +114,35 @@ func (q *Queries) GetDestination(ctx context.Context) ([]GetDestinationRow, erro
 	return items, nil
 }
 
+const getDestinationById = `-- name: GetDestinationById :one
+SELECT id, photo1, photo2, name, meta, text_description, price FROM destinations WHERE id = ?
+`
+
+type GetDestinationByIdRow struct {
+	ID              string
+	Photo1          string
+	Photo2          string
+	Name            string
+	Meta            string
+	TextDescription string
+	Price           float64
+}
+
+func (q *Queries) GetDestinationById(ctx context.Context, id string) (GetDestinationByIdRow, error) {
+	row := q.db.QueryRowContext(ctx, getDestinationById, id)
+	var i GetDestinationByIdRow
+	err := row.Scan(
+		&i.ID,
+		&i.Photo1,
+		&i.Photo2,
+		&i.Name,
+		&i.Meta,
+		&i.TextDescription,
+		&i.Price,
+	)
+	return i, err
+}
+
 const getDestinationsByName = `-- name: GetDestinationsByName :many
 SELECT id, photo1, photo2, name, meta, text_description, price
 FROM destinations
