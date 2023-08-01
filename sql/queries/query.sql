@@ -26,3 +26,6 @@ DELETE FROM destinations WHERE id = ?;
 SELECT id, photo1, photo2, name, meta, text_description, price
 FROM destinations
 WHERE name LIKE CONCAT('%', ?, '%');
+
+-- name: GetDestinationById :one
+SELECT id, photo1, photo2, name, meta, text_description, price FROM destinations WHERE id = ?;
