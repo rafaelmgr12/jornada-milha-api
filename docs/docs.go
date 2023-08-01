@@ -167,9 +167,209 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/v1/destinos": {
+            "get": {
+                "description": "Get list of destinations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "destinations"
+                ],
+                "summary": "Get list of destinations",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.Destinations"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update a destination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "destinations"
+                ],
+                "summary": "Update a destination",
+                "parameters": [
+                    {
+                        "description": "DestinationUpdateDTO",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/destinations.DestinationsUpdateDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "post": {
+                "description": "Create a new destination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "destinations"
+                ],
+                "summary": "Create a new destination",
+                "parameters": [
+                    {
+                        "description": "DestinationsCreateDTO",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/destinations.DestinationsCreateDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Destinations"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/destinos/{id}": {
+            "delete": {
+                "description": "Delete a destination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "destinations"
+                ],
+                "summary": "Delete a destination",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Destination ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/v1/query/destinos": {
+            "get": {
+                "description": "Search destinations by name",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "destinations"
+                ],
+                "summary": "Search destinations by name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Destination Name",
+                        "name": "nome",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.Destinations"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "mensagem\": \"Nenhum destino foi encontrado",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "destinations.DestinationsCreateDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                }
+            }
+        },
+        "destinations.DestinationsUpdateDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                }
+            }
+        },
+        "entity.Destinations": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                }
+            }
+        },
         "entity.Testimonial": {
             "type": "object",
             "properties": {

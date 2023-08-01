@@ -1,5 +1,36 @@
 basePath: /v2
 definitions:
+  destinations.DestinationsCreateDTO:
+    properties:
+      name:
+        type: string
+      photo:
+        type: string
+      price:
+        type: number
+    type: object
+  destinations.DestinationsUpdateDTO:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      photo:
+        type: string
+      price:
+        type: number
+    type: object
+  entity.Destinations:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      photo:
+        type: string
+      price:
+        type: number
+    type: object
   entity.Testimonial:
     properties:
       id:
@@ -130,4 +161,105 @@ paths:
       summary: Delete a Testimonial
       tags:
       - testimonials
+  /api/v1/destinos:
+    get:
+      consumes:
+      - application/json
+      description: Get list of destinations
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.Destinations'
+            type: array
+      summary: Get list of destinations
+      tags:
+      - destinations
+    post:
+      consumes:
+      - application/json
+      description: Create a new destination
+      parameters:
+      - description: DestinationsCreateDTO
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/destinations.DestinationsCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Destinations'
+      summary: Create a new destination
+      tags:
+      - destinations
+    put:
+      consumes:
+      - application/json
+      description: Update a destination
+      parameters:
+      - description: DestinationUpdateDTO
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/destinations.DestinationsUpdateDTO'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update a destination
+      tags:
+      - destinations
+  /api/v1/destinos/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a destination
+      parameters:
+      - description: Destination ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete a destination
+      tags:
+      - destinations
+  /api/v1/query/destinos:
+    get:
+      consumes:
+      - application/json
+      description: Search destinations by name
+      parameters:
+      - description: Destination Name
+        in: query
+        name: nome
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.Destinations'
+            type: array
+        "404":
+          description: 'mensagem": "Nenhum destino foi encontrado'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Search destinations by name
+      tags:
+      - destinations
 swagger: "2.0"
