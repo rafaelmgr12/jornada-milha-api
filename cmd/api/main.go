@@ -12,6 +12,7 @@ import (
 	"github.com/rafaelmgr12/jornada-milha-api/internal/infra/repository"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/infra/web"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/infra/web/webserver"
+	"github.com/rafaelmgr12/jornada-milha-api/internal/usecase/chat"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/usecase/destinations"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/usecase/testimonials"
 )
@@ -41,6 +42,10 @@ func main() {
 	}
 	defer conn.Close()
 
+	createDescription := chat.CreateDescriptionUseCase{
+		APIKey: configs.OPENAI_API_KEY,
+	}
+
 	repoTestimonials := repository.NewTestimonialRepository(conn)
 	repoDestinations := repository.NewDestinationsRepository(conn)
 
@@ -49,7 +54,7 @@ func main() {
 
 	webserver := webserver.NewWebServer(":" + configs.WebServerPort)
 	webserverTestimonialHandler := web.NewWebTestimonialHandler(*usecaseTestimonials)
-	webserverDestinationsHandler := web.NewWebDestinationsHandler(*usecaseDestinations)
+	webserverDestinationsHandler := web.NewWebDestinationsHandler(*usecaseDestinations, createDescription)
 
 	webserver.AddHandlerWithMethod("/api/v1/depoimentos", http.MethodPost, webserverTestimonialHandler.CreateTestimonial)
 	webserver.AddHandlerWithMethod("/api/v1/depoimentos", http.MethodGet, webserverTestimonialHandler.GetListTestimonials)

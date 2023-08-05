@@ -7,16 +7,19 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/rafaelmgr12/jornada-milha-api/internal/usecase/chat"
 	"github.com/rafaelmgr12/jornada-milha-api/internal/usecase/destinations"
 )
 
 type WebDestinationsHandler struct {
-	DestinationsUseCase destinations.DestinationsUseCase
+	DestinationsUseCase      destinations.DestinationsUseCase
+	CreateDescriptionUseCase chat.CreateDescriptionUseCase
 }
 
-func NewWebDestinationsHandler(destinationsUseCase destinations.DestinationsUseCase) *WebDestinationsHandler {
+func NewWebDestinationsHandler(usecase destinations.DestinationsUseCase, createDescriptionUseCase chat.CreateDescriptionUseCase) *WebDestinationsHandler {
 	return &WebDestinationsHandler{
-		DestinationsUseCase: destinationsUseCase,
+		DestinationsUseCase:      usecase,
+		CreateDescriptionUseCase: createDescriptionUseCase, // Armazenar o serviço de descrição
 	}
 }
 
@@ -51,6 +54,15 @@ func (h *WebDestinationsHandler) CreateDestinations(w http.ResponseWriter, r *ht
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
+	}
+
+	if dto.DescriptiveText == "" {
+		generatedText, err := h.CreateDescriptionUseCase.Generate(dto.Name)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		dto.DescriptiveText = generatedText
 	}
 
 	createdDestinations, err := h.DestinationsUseCase.CreateDestinations(r.Context(), dto)
