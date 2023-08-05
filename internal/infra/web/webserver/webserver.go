@@ -2,13 +2,57 @@ package webserver
 
 import (
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/sirupsen/logrus"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
+
+var log = logrus.New()
+
+func init() {
+	logFile, err := os.OpenFile("logs.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.SetOutput(logFile)
+	log.SetFormatter(&logrus.JSONFormatter{})
+	log.SetLevel(logrus.InfoLevel)
+}
+
+func RequestLogger(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		writer := &responseWriter{ResponseWriter: w}
+
+		next.ServeHTTP(writer, r)
+
+		log.WithFields(logrus.Fields{
+			"method":     r.Method,
+			"url":        r.URL.Path,
+			"remoteAddr": r.RemoteAddr,
+			"userAgent":  r.UserAgent(),
+			"status":     writer.status,
+			"duration":   time.Since(start).String(),
+		}).Info("Nova requisição")
+	})
+}
+
+type responseWriter struct {
+	http.ResponseWriter
+	status int
+}
+
+func (rw *responseWriter) WriteHeader(status int) {
+	rw.status = status
+	rw.ResponseWriter.WriteHeader(status)
+}
 
 type WebServer struct {
 	Router        chi.Router
@@ -27,6 +71,7 @@ func NewWebServer(webServerPort string) *WebServer {
 		AllowCredentials: false,
 	}))
 
+	router.Use(RequestLogger)
 	router.Use(middleware.RequestID)
 	router.Use(middleware.RealIP)
 	router.Use(middleware.Logger)
@@ -60,6 +105,6 @@ func (s *WebServer) AddHandlerWithMethod(path string, method string, handler htt
 
 func (s *WebServer) Start() {
 	if err := http.ListenAndServe(s.WebServerPort, s.Router); err != nil {
-		panic(err.Error())
+		log.Panic(err.Error())
 	}
 }
