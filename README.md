@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="Logo" src="./doc/img/logo.png">
+  <img alt="Logo" src="./docs/img/logo.png">
 </h1>
 
 <h1 align="center">Jornada Milhas</h1>
