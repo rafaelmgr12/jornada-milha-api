@@ -14,6 +14,11 @@ type mockDestinationsGateway struct {
 	mock.Mock
 }
 
+// GetDestinationsByID implements gateway.DestinationsGateway.
+func (*mockDestinationsGateway) GetDestinationsByID(ctx context.Context, id string) (entity.Destinations, error) {
+	panic("unimplemented")
+}
+
 // CreateDestinations implements gateway.DestinationsGateway.
 func (*mockDestinationsGateway) CreateDestinations(ctx context.Context, destinations entity.Destinations) (entity.Destinations, error) {
 	panic("unimplemented")
@@ -44,9 +49,12 @@ func TestSearchDestinationsByName(t *testing.T) {
 	gateway := &mockDestinationsGateway{}
 	gateway.On("GetDestinationsByName", mock.Anything, "Paris").Return([]entity.Destinations{
 		{
-			Name:  "Paris",
-			Price: 100,
-			Photo: "photo_url",
+			Name:            "Paris",
+			Price:           100,
+			Photo1:          "photo_url",
+			Photo2:          "photo_url",
+			Meta:            "Teste",
+			DescriptiveText: "PARIS TESTE",
 		},
 	}, nil)
 
