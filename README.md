@@ -44,43 +44,43 @@ O endpoint da API estão descritos abaixo
 #### **Destinos (Destinations)**
 
 1. **Listar Destinos**
-    - **Endpoint**: **`GET /destinations`**
+    - **Endpoint**: **`GET /api/v1/destinations`**
     - **Descrição**: Retorna uma lista de todos os destinos disponíveis.
 2. **Obter Destino**
-    - **Endpoint**: **`GET /destinations/{id}`**
+    - **Endpoint**: **`GET /api/v1/destinations/{id}`**
     - **Descrição**: Retorna os detalhes de um destino específico pelo ID.
 3. **Criar Destino**
-    - **Endpoint**: **`POST /destinations`**
+    - **Endpoint**: **`POST /api/v1/destinations`**
     - **Descrição**: Cria um novo destino com as informações fornecidas. Se o campo de descrição estiver vazio, a IA ChatGPT será usada para gerar uma descrição.
 4. **Atualizar Destino**
-    - **Endpoint**: **`PUT /destinations/{id}`**
+    - **Endpoint**: **`PUT /api/v1/destinations/{id}`**
     - **Descrição**: Atualiza as informações de um destino existente pelo ID.
 5. **Excluir Destino**
-    - **Endpoint**: **`DELETE /destinations/{id}`**
+    - **Endpoint**: **`DELETE /api/v1/destinations/{id}`**
     - **Descrição**: Exclui um destino específico pelo ID.
 
 #### **Depoimentos (Testimonials)**
 
 1. **Listar Depoimentos**
-    - **Endpoint**: **`GET /testimonials`**
+    - **Endpoint**: **`GET /api/v1/testimonials`**
     - **Descrição**: Retorna uma lista de todos os depoimentos disponíveis.
 2. **Obter Depoimento**
-    - **Endpoint**: **`GET /testimonials/{id}`**
+    - **Endpoint**: **`GET /api/v1/testimonials/{id}`**
     - **Descrição**: Retorna os detalhes de um depoimento específico pelo ID.
 3. **Criar Depoimento**
-    - **Endpoint**: **`POST /testimonials`**
+    - **Endpoint**: **`POST /api/v1/testimonials`**
     - **Descrição**: Cria um novo depoimento com as informações fornecidas.
 4. **Atualizar Depoimento**
-    - **Endpoint**: **`PUT /testimonials/{id}`**
+    - **Endpoint**: **`PUT /api/v1/testimonials/{id}`**
     - **Descrição**: Atualiza as informações de um depoimento existente pelo ID.
 5. **Excluir Depoimento**
-    - **Endpoint**: **`DELETE /testimonials/{id}`**
+    - **Endpoint**: **`DELETE /api/v1/testimonials/{id}`**
     - **Descrição**: Exclui um depoimento específico pelo ID.
 
 #### **Documentação (Swagger)**
 
 1. **Documentação da API**
-    - **Endpoint**: **`GET /docs`**
+    - **Endpoint**: **`GET /api/v1/docs`**
     - **Descrição**: Acessa a documentação interativa da API através do Swagger.
 
 ### Funcionalidades
