@@ -33,14 +33,17 @@ func RequestLogger(next http.Handler) http.Handler {
 
 		next.ServeHTTP(writer, r)
 
-		log.WithFields(logrus.Fields{
-			"method":     r.Method,
-			"url":        r.URL.Path,
-			"remoteAddr": r.RemoteAddr,
-			"userAgent":  r.UserAgent(),
-			"status":     writer.status,
-			"duration":   time.Since(start).String(),
-		}).Info("Nova requisição")
+		// Ignora logs para o endpoint /metrics do Prometheus
+		if r.URL.Path != "/metrics" {
+			log.WithFields(logrus.Fields{
+				"method":     r.Method,
+				"url":        r.URL.Path,
+				"remoteAddr": r.RemoteAddr,
+				"userAgent":  r.UserAgent(),
+				"status":     writer.status,
+				"duration":   time.Since(start).String(),
+			}).Info("Nova requisição")
+		}
 	})
 }
 
