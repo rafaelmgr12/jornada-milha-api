@@ -1,19 +1,17 @@
 version: '3'
 
 services:
-  go-app:
+  api:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: go-app
     restart: always
-    ports:
-      - 8080:8080
     depends_on:
       - mysql
-    networks: # Adicione esta seção
+    networks: 
       - jornada-network
-
+  
   mysql:
     image: mysql:8
     container_name: mysql
@@ -46,6 +44,16 @@ services:
       - 3000:3000
     volumes:
       - grafana_data:/var/lib/grafana
+  nginx: 
+    container_name: nginx
+    depends_on: 
+      - api
+    ports: 
+      - "8000:8000"
+    build:
+      context: ./nginx
+    networks: 
+      - jornada-network
 volumes:
   prometheus_data:
     driver: local
