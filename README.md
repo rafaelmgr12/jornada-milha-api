@@ -88,7 +88,7 @@ O endpoint da API estão descritos abaixo
 #### **Documentação (Swagger)**
 
 1. **Documentação da API**
-    - **Endpoint**: **`GET /api/v1/docs`**
+    - **Endpoint**: **`GET /swagger/index.html`**
     - **Descrição**: Acessa a documentação interativa da API através do Swagger.
 
 ### Funcionalidades
